@@ -44,7 +44,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden"
+            className="md:hidden text-gray-900 hover:text-blue-600 hover:bg-blue-50"
             onClick={onMobileMenuToggle}
             aria-label={isMobileMenuOpen ? 'Close mobile menu' : 'Open mobile menu'}
           >
@@ -64,7 +64,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
               <div className="h-8 w-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-sm">S</span>
               </div>
-              <span className="hidden sm:block">ShopHub</span>
+              <span className="hidden sm:block text-gray-900">ShopHub</span>
             </Link>
           </div>
 
@@ -74,7 +74,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-gray-700 hover:text-blue-600 font-medium transition-colors relative group"
+                className="text-gray-900 hover:text-blue-600 font-medium transition-colors relative group"
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full" />
@@ -85,7 +85,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
           {/* Search Bar - Hidden on mobile */}
           <div className="hidden lg:flex items-center flex-1 max-w-md mx-8">
             <form onSubmit={handleSearch} className="relative w-full">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600 h-4 w-4" />
               <input
                 type="text"
                 placeholder="Search products..."
@@ -96,15 +96,15 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
                     handleSearch(e);
                   }
                 }}
-                className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none text-gray-900 placeholder-gray-500"
                 aria-label="Search products"
               />
               <button
                 type="submit"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded-md"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded-md transition-colors"
                 aria-label="Submit search"
               >
-                <Search className="h-4 w-4 text-gray-500" />
+                <Search className="h-4 w-4 text-gray-700 hover:text-blue-600" />
               </button>
             </form>
           </div>
@@ -115,7 +115,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
             <Button
               variant="ghost"
               size="sm"
-              className="lg:hidden"
+              className="lg:hidden text-gray-900 hover:text-blue-600 hover:bg-blue-50"
               onClick={handleMobileSearchToggle}
               aria-label="Search"
             >
@@ -127,7 +127,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="relative"
+                className="relative text-gray-900 hover:text-red-600 hover:bg-red-50"
                 aria-label="Wishlist"
               >
                 <Heart className="h-5 w-5" />
@@ -142,7 +142,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
               <Button
                 variant="ghost"
                 size="sm"
-                className="relative"
+                className="relative text-gray-900 hover:text-blue-600 hover:bg-blue-50"
                 aria-label="Shopping cart"
               >
                 <ShoppingCart className="h-5 w-5" />
@@ -157,6 +157,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
               <Button
                 variant="ghost"
                 size="sm"
+                className="text-gray-900 hover:text-blue-600 hover:bg-blue-50"
                 aria-label="User account"
               >
                 <User className="h-5 w-5" />
