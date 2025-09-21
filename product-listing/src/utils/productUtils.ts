@@ -3,6 +3,18 @@ import { Product, FilterState, SortOption } from '@/types';
 // Filter products based on filter state
 export function filterProducts(products: Product[], filters: FilterState): Product[] {
   return products.filter(product => {
+    // Search filter
+    if (filters.search) {
+      const searchTerm = filters.search.toLowerCase();
+      const matchesName = product.name.toLowerCase().includes(searchTerm);
+      const matchesDescription = product.description?.toLowerCase().includes(searchTerm);
+      const matchesCategory = product.category.toLowerCase().includes(searchTerm);
+      
+      if (!matchesName && !matchesDescription && !matchesCategory) {
+        return false;
+      }
+    }
+
     // Category filter
     if (filters.categories.length > 0 && !filters.categories.includes(product.category)) {
       return false;
@@ -103,6 +115,10 @@ export function calculateDiscountPercent(originalPrice: number, discountPrice: n
 export function filtersToQueryParams(filters: FilterState, sortId: string, page: number): URLSearchParams {
   const params = new URLSearchParams();
   
+  if (filters.search) {
+    params.set('search', filters.search);
+  }
+  
   if (filters.categories.length > 0) {
     params.set('categories', filters.categories.join(','));
   }
@@ -144,6 +160,7 @@ export function queryParamsToFilters(searchParams: URLSearchParams): {
   sortId: string;
   page: number;
 } {
+  const search = searchParams.get('search') || '';
   const categories = searchParams.get('categories')?.split(',').filter(Boolean) || [];
   const colors = searchParams.get('colors')?.split(',').filter(Boolean) || [];
   const minPrice = Number(searchParams.get('minPrice')) || 0;
@@ -155,6 +172,7 @@ export function queryParamsToFilters(searchParams: URLSearchParams): {
 
   return {
     filters: {
+      search,
       categories,
       colors,
       priceRange: { min: minPrice, max: maxPrice },

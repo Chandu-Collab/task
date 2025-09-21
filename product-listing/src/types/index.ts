@@ -46,6 +46,7 @@ export interface FilterState {
   };
   rating: number;
   inStock: boolean;
+  search: string;
 }
 
 export interface SortOption {
