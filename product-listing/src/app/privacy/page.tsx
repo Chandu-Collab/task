@@ -88,36 +88,78 @@ export default function PrivacyPage() {
       <Navbar onMobileMenuToggle={() => {}} />
 
       {/* Hero Section */}
-      <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <Shield className="h-16 w-16 text-blue-600 mx-auto mb-6" />
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">
-            Privacy Policy
-          </h1>
-          <p className="text-xl text-gray-600 mb-4">
-            Your privacy is important to us. This policy explains how we collect, 
-            use, and protect your personal information.
-          </p>
-          <p className="text-gray-500">
-            Last updated: {lastUpdated}
-          </p>
+      <section className="relative bg-gradient-to-br from-indigo-600 via-blue-600 to-purple-700 text-white py-20 overflow-hidden">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-16 left-20 w-32 h-32 bg-white/15 rounded-full animate-float"></div>
+          <div className="absolute top-40 right-28 w-20 h-20 bg-white/10 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-32 left-1/4 w-24 h-24 bg-white/20 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
+          <div className="absolute bottom-20 right-1/3 w-16 h-16 bg-white/25 rounded-full animate-float" style={{animationDelay: '0.5s'}}></div>
+        </div>
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent"></div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <div className="animate-fade-in-up">
+            <div className="inline-block mb-6">
+              <div className="glass-card p-6">
+                <Shield className="h-20 w-20 text-white mx-auto animate-glow" />
+              </div>
+            </div>
+            <div className="inline-block mb-6">
+              <span className="px-6 py-3 bg-white/20 rounded-full text-sm font-medium backdrop-blur-sm border border-white/30">
+                🔒 Your Data is Protected
+              </span>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 gradient-text">
+              Privacy Policy
+            </h1>
+            <p className="text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+              Your privacy is important to us. This policy explains how we collect, 
+              use, and protect your personal information with the 
+              <span className="text-white font-semibold"> highest standards of security.</span>
+            </p>
+            
+            {/* Privacy Highlights */}
+            <div className="flex flex-wrap justify-center gap-6 mt-10 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+              <div className="glass-card px-6 py-4 flex items-center space-x-3">
+                <Lock className="h-6 w-6" />
+                <span className="font-medium">Encrypted Data</span>
+              </div>
+              <div className="glass-card px-6 py-4 flex items-center space-x-3">
+                <Shield className="h-6 w-6" />
+                <span className="font-medium">GDPR Compliant</span>
+              </div>
+              <div className="glass-card px-6 py-4 flex items-center space-x-3">
+                <Eye className="h-6 w-6" />
+                <span className="font-medium">Transparent</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 animate-fade-in-up">
+        <div className="max-w-6xl mx-auto">
+          {/* Last Updated */}
+          <div className="text-center mb-12">
+            <p className="text-gray-500 bg-white/80 backdrop-blur-sm rounded-full px-6 py-3 inline-block shadow-sm">
+              Last updated: {lastUpdated}
+            </p>
+          </div>
           {/* Introduction */}
-          <div className="bg-white rounded-lg shadow-sm border p-8 mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          <div className="glass-card p-10 mb-16 text-center hover:shadow-2xl transition-all duration-500">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Our Commitment to Privacy
             </h2>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600 mb-6 text-lg leading-relaxed">
               At StyleHub, we are committed to protecting your privacy and ensuring the security 
               of your personal information. This Privacy Policy describes how we collect, use, 
               disclose, and safeguard your information when you visit our website or make a purchase.
             </p>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-lg leading-relaxed">
               By using our services, you agree to the collection and use of information in 
               accordance with this policy. We will not use or share your information with 
               anyone except as described in this Privacy Policy.
@@ -125,25 +167,29 @@ export default function PrivacyPage() {
           </div>
 
           {/* Privacy Sections */}
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
             {sections.map((section, index) => {
               const IconComponent = section.icon;
               return (
-                <div key={index} className="bg-white rounded-lg shadow-sm border p-8">
-                  <div className="flex items-center mb-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mr-4">
-                      <IconComponent className="h-6 w-6 text-blue-600" />
+                <div 
+                  key={index} 
+                  className="glass-card p-8 hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-fade-in-up"
+                  style={{animationDelay: `${index * 0.1}s`}}
+                >
+                  <div className="flex items-center mb-8">
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl w-16 h-16 flex items-center justify-center mr-6 shadow-lg hover:scale-110 transition-transform">
+                      <IconComponent className="h-8 w-8 text-white" />
                     </div>
                     <h2 className="text-2xl font-bold text-gray-900">
                       {section.title}
                     </h2>
                   </div>
                   
-                  <ul className="space-y-3">
+                  <ul className="space-y-4">
                     {section.content.map((item, itemIndex) => (
-                      <li key={itemIndex} className="flex items-start">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                        <span className="text-gray-600">{item}</span>
+                      <li key={itemIndex} className="flex items-start group">
+                        <div className="w-3 h-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mt-2 mr-4 flex-shrink-0 group-hover:scale-125 transition-transform"></div>
+                        <span className="text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors">{item}</span>
                       </li>
                     ))}
                   </ul>

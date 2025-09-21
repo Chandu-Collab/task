@@ -105,7 +105,7 @@ export function Sidebar({
 
       {/* Categories */}
       <div className="space-y-4">
-        <h3 className="font-medium text-gray-900">Categories</h3>
+        <h3 className="font-semibold text-gray-900">Categories</h3>
         <div className="space-y-2">
           {categories.map((category) => {
             const isExpanded = expandedCategories.includes(category.id);
@@ -121,10 +121,10 @@ export function Sidebar({
                       onChange={() => onCategoryToggle(category.name)}
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
-                    <span className="text-sm text-gray-700 group-hover:text-gray-900">
+                    <span className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
                       {category.name}
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs font-medium text-gray-600">
                       ({category.count})
                     </span>
                   </label>
@@ -162,17 +162,17 @@ export function Sidebar({
                             onChange={() => onSubcategoryToggle(subcategory.name)}
                             className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                           />
-                          <span className="text-sm text-gray-600 group-hover:text-gray-800">
+                          <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors">
                             {subcategory.name}
                           </span>
-                          <span className="text-xs text-gray-500">
+                          <span className="text-xs font-medium text-gray-600">
                             ({subcategory.count})
                           </span>
                         </label>
                       );
                     })}
                     {category.subcategories.length > 6 && (
-                      <Button variant="link" size="sm" className="ml-6 p-0 h-auto text-blue-600">
+                      <Button variant="link" size="sm" className="ml-6 p-0 h-auto text-blue-600 font-semibold hover:text-blue-800">
                         View more ({category.subcategories.length - 6})
                       </Button>
                     )}
@@ -186,39 +186,200 @@ export function Sidebar({
 
       {/* Price Range */}
       <div className="space-y-4">
-        <h3 className="font-medium text-gray-900">Price Range</h3>
-        <div className="grid grid-cols-2 gap-2">
-          <Input
-            type="number"
-            placeholder="Min"
-            value={priceMin}
-            onChange={(e) => setPriceMin(e.target.value)}
-            onBlur={handlePriceChange}
-            className="text-sm"
-            min="0"
-          />
-          <Input
-            type="number"
-            placeholder="Max"
-            value={priceMax}
-            onChange={(e) => setPriceMax(e.target.value)}
-            onBlur={handlePriceChange}
-            className="text-sm"
-            min="0"
-          />
+        <h3 className="font-semibold text-gray-900">Price Range</h3>
+        
+        {/* Price Input Fields */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-gray-700">Min Price</label>
+            <Input
+              type="number"
+              placeholder="0"
+              value={priceMin}
+              onChange={(e) => setPriceMin(e.target.value)}
+              onBlur={handlePriceChange}
+              className="text-sm font-medium text-gray-900 bg-white border-gray-300 focus:border-blue-500"
+              min="0"
+              max="10000"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-gray-700">Max Price</label>
+            <Input
+              type="number"
+              placeholder="10000"
+              value={priceMax}
+              onChange={(e) => setPriceMax(e.target.value)}
+              onBlur={handlePriceChange}
+              className="text-sm font-medium text-gray-900 bg-white border-gray-300 focus:border-blue-500"
+              min="0"
+              max="10000"
+            />
+          </div>
         </div>
-        <div className="text-xs text-gray-500">
-          ${filters.priceRange.min} - ${filters.priceRange.max}
+
+        {/* Current Range Display */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+          <div className="text-center">
+            <div className="text-xl font-bold text-blue-900 mb-1">
+              ${filters.priceRange.min.toLocaleString()} - ${filters.priceRange.max.toLocaleString()}
+            </div>
+            <div className="text-sm font-medium text-blue-700">Selected price range</div>
+            {activeFilterCount > 0 && (
+              <div className="text-xs text-blue-600 mt-1">
+                {activeFilterCount} filter{activeFilterCount !== 1 ? 's' : ''} applied
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Price Range Slider */}
+        <div className="space-y-4 bg-gray-50 rounded-lg p-4">
+          <div className="text-sm font-semibold text-gray-800 text-center">
+            Drag sliders to adjust range
+          </div>
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-2">
+                Minimum: ${filters.priceRange.min.toLocaleString()}
+              </label>
+              <div className="relative">
+                <input
+                  type="range"
+                  min="0"
+                  max="10000"
+                  step="50"
+                  value={filters.priceRange.min}
+                  onChange={(e) => {
+                    const newMin = parseInt(e.target.value);
+                    if (newMin <= filters.priceRange.max) {
+                      setPriceMin(newMin.toString());
+                      onFilterChange({
+                        priceRange: { min: newMin, max: filters.priceRange.max }
+                      });
+                    }
+                  }}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+                  style={{
+                    background: `linear-gradient(to right, #3B82F6 0%, #3B82F6 ${(filters.priceRange.min / 10000) * 100}%, #E5E7EB ${(filters.priceRange.min / 10000) * 100}%, #E5E7EB 100%)`
+                  }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-2">
+                Maximum: ${filters.priceRange.max.toLocaleString()}
+              </label>
+              <div className="relative">
+                <input
+                  type="range"
+                  min="0"
+                  max="10000"
+                  step="50"
+                  value={filters.priceRange.max}
+                  onChange={(e) => {
+                    const newMax = parseInt(e.target.value);
+                    if (newMax >= filters.priceRange.min) {
+                      setPriceMax(newMax.toString());
+                      onFilterChange({
+                        priceRange: { min: filters.priceRange.min, max: newMax }
+                      });
+                    }
+                  }}
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb"
+                  style={{
+                    background: `linear-gradient(to right, #E5E7EB 0%, #E5E7EB ${(filters.priceRange.max / 10000) * 100}%, #3B82F6 ${(filters.priceRange.max / 10000) * 100}%, #3B82F6 100%)`
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex justify-between text-xs font-medium text-gray-600 pt-2 border-t border-gray-200">
+            <span className="bg-white px-2 py-1 rounded">$0</span>
+            <span className="bg-white px-2 py-1 rounded">$10,000</span>
+          </div>
+        </div>
+
+        {/* Quick Price Buttons */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-700">Quick Select:</span>
+            <Button
+              variant="link"
+              size="sm"
+              onClick={() => {
+                setPriceMin('0');
+                setPriceMax('10000');
+                onFilterChange({ priceRange: { min: 0, max: 10000 } });
+              }}
+              className="text-xs text-blue-600 hover:text-blue-800 p-0 h-auto"
+            >
+              Reset Range
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setPriceMin('0');
+                setPriceMax('100');
+                onFilterChange({ priceRange: { min: 0, max: 100 } });
+              }}
+              className="text-xs font-medium text-gray-700 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50"
+            >
+              Under $100
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setPriceMin('100');
+                setPriceMax('500');
+                onFilterChange({ priceRange: { min: 100, max: 500 } });
+              }}
+              className="text-xs font-medium text-gray-700 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50"
+            >
+              $100 - $500
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setPriceMin('500');
+                setPriceMax('1000');
+                onFilterChange({ priceRange: { min: 500, max: 1000 } });
+              }}
+              className="text-xs font-medium text-gray-700 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50"
+            >
+              $500 - $1K
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setPriceMin('1000');
+                setPriceMax('10000');
+                onFilterChange({ priceRange: { min: 1000, max: 10000 } });
+              }}
+              className="text-xs font-medium text-gray-700 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50"
+            >
+              Over $1K
+            </Button>
+          </div>
         </div>
       </div>
 
       {/* Colors */}
       <div className="space-y-4">
-        <h3 className="font-medium text-gray-900">Colors</h3>
+        <h3 className="font-semibold text-gray-900">Colors</h3>
         <div className="space-y-3">
           {/* Color Selection for Visual Feedback */}
           <div>
-            <p className="text-sm text-gray-600 mb-2">Select Color (Preview)</p>
+            <p className="text-sm font-semibold text-gray-800 mb-2">Select Color (Preview)</p>
             <div className="flex flex-wrap gap-2">
               {colors.slice(0, 12).map((color) => (
                 <ColorSwatch
@@ -234,7 +395,7 @@ export function Sidebar({
 
           {/* Color Filtering */}
           <div>
-            <p className="text-sm text-gray-600 mb-2">Filter by Color</p>
+            <p className="text-sm font-semibold text-gray-800 mb-2">Filter by Color</p>
             <div className="space-y-2">
               {colors.slice(0, 8).map((color) => (
                 <label 
@@ -252,14 +413,14 @@ export function Sidebar({
                       className="h-4 w-4 rounded-full border border-gray-300"
                       style={{ backgroundColor: color.hex }}
                     />
-                    <span className="text-sm text-gray-700 group-hover:text-gray-900">
+                    <span className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
                       {color.name}
                     </span>
                   </div>
                 </label>
               ))}
               {colors.length > 8 && (
-                <Button variant="link" size="sm" className="p-0 h-auto text-blue-600">
+                <Button variant="link" size="sm" className="p-0 h-auto text-blue-600 font-semibold hover:text-blue-800">
                   View all colors ({colors.length})
                 </Button>
               )}
@@ -270,7 +431,7 @@ export function Sidebar({
 
       {/* Rating */}
       <div className="space-y-4">
-        <h3 className="font-medium text-gray-900">Rating</h3>
+        <h3 className="font-semibold text-gray-900">Rating</h3>
         <div className="space-y-2">
           {[4, 3, 2, 1].map((rating) => (
             <label 
@@ -290,7 +451,7 @@ export function Sidebar({
                   showCount={false} 
                   size="sm" 
                 />
-                <span className="text-sm text-gray-700">& up</span>
+                <span className="text-sm font-medium text-gray-800">& up</span>
               </div>
             </label>
           ))}
@@ -299,7 +460,7 @@ export function Sidebar({
 
       {/* Stock Status */}
       <div className="space-y-4">
-        <h3 className="font-medium text-gray-900">Availability</h3>
+        <h3 className="font-semibold text-gray-900">Availability</h3>
         <label className="flex items-center space-x-3 cursor-pointer group">
           <input
             type="checkbox"
@@ -307,7 +468,7 @@ export function Sidebar({
             onChange={() => onFilterChange({ inStock: !filters.inStock })}
             className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
           />
-          <span className="text-sm text-gray-700 group-hover:text-gray-900">
+          <span className="text-sm font-medium text-gray-800 group-hover:text-blue-600 transition-colors">
             In Stock Only
           </span>
         </label>

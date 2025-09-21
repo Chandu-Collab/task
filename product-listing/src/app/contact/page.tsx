@@ -54,208 +54,298 @@ export default function ContactPage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+        <div className="relative bg-gradient-to-br from-green-600 via-blue-600 to-teal-700 text-white py-20 overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-20 left-16 w-24 h-24 bg-white/20 rounded-full animate-float"></div>
+            <div className="absolute top-40 right-24 w-16 h-16 bg-white/15 rounded-full animate-float" style={{animationDelay: '1s'}}></div>
+            <div className="absolute bottom-32 left-1/3 w-20 h-20 bg-white/10 rounded-full animate-float" style={{animationDelay: '2s'}}></div>
+            <div className="absolute bottom-20 right-1/4 w-32 h-32 bg-white/25 rounded-full animate-float" style={{animationDelay: '0.5s'}}></div>
+          </div>
+          
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/10 to-transparent"></div>
+          
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="text-center animate-fade-in-up">
+              <div className="inline-block mb-6">
+                <span className="px-6 py-3 bg-white/20 rounded-full text-sm font-medium backdrop-blur-sm border border-white/30">
+                  💬 We're Here to Help
+                </span>
+              </div>
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 gradient-text">
                 Get In Touch
               </h1>
-              <p className="text-xl text-green-100 max-w-2xl mx-auto">
-                We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              <p className="text-xl md:text-2xl text-green-100 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                We'd love to hear from you. Send us a message and we'll respond 
+                <span className="text-white font-semibold"> as soon as possible.</span>
               </p>
+              
+              {/* Quick Contact Options */}
+              <div className="flex flex-wrap justify-center gap-4 mt-8 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+                <div className="glass-card px-4 py-2 flex items-center space-x-2">
+                  <Phone className="h-4 w-4" />
+                  <span className="text-sm">Call Now</span>
+                </div>
+                <div className="glass-card px-4 py-2 flex items-center space-x-2">
+                  <Mail className="h-4 w-4" />
+                  <span className="text-sm">Email Us</span>
+                </div>
+                <div className="glass-card px-4 py-2 flex items-center space-x-2">
+                  <MessageCircle className="h-4 w-4" />
+                  <span className="text-sm">Live Chat</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="container mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Form */}
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Your Name *
+            <div className="animate-fade-in-up">
+              <div className="glass-card p-10 hover:shadow-2xl transition-all duration-500">
+                <div className="text-center mb-8">
+                  <div className="inline-block mb-4">
+                    <span className="px-4 py-2 bg-gradient-to-r from-green-100 to-blue-100 text-green-700 rounded-full text-sm font-medium">
+                      📝 Send Message
+                    </span>
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">Send us a Message</h2>
+                  <p className="text-gray-600">Fill out the form below and we'll get back to you within 24 hours</p>
+                </div>
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="group">
+                      <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-3">
+                        Your Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:shadow-md group-hover:border-blue-300"
+                        placeholder="Enter your name"
+                      />
+                    </div>
+                    
+                    <div className="group">
+                      <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:shadow-md group-hover:border-blue-300"
+                        placeholder="Enter your email"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="group">
+                    <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-3">
+                      Subject *
                     </label>
                     <input
                       type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your name"
+                      className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:shadow-md group-hover:border-blue-300"
+                      placeholder="What is this about?"
                     />
                   </div>
                   
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                  <div className="group">
+                    <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-3">
+                      Message *
                     </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Enter your email"
+                      rows={6}
+                      className="w-full px-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-300 hover:shadow-md group-hover:border-blue-300"
+                      placeholder="Tell us how we can help you..."
                     />
                   </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject *
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="What is this about?"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                    placeholder="Tell us how we can help you..."
-                  />
-                </div>
-                
-                <Button type="submit" className="w-full">
-                  <Send className="h-4 w-4 mr-2" />
-                  Send Message
-                </Button>
-              </form>
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  >
+                    <Send className="h-5 w-5 mr-2" />
+                    Send Message
+                  </Button>
+                </form>
+              </div>
             </div>
 
             {/* Contact Information */}
-            <div className="space-y-8">
+            <div className="space-y-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
               {/* Contact Details */}
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact Information</h2>
+              <div className="glass-card p-8 hover:shadow-2xl transition-all duration-500">
+                <div className="text-center mb-8">
+                  <div className="inline-block mb-4">
+                    <span className="px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 rounded-full text-sm font-medium">
+                      📞 Contact Info
+                    </span>
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4">Contact Information</h2>
+                  <p className="text-gray-600">Multiple ways to reach our friendly support team</p>
+                </div>
                 
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <div className="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
-                      <Mail className="h-6 w-6 text-blue-600" />
+                <div className="space-y-8">
+                  <div className="group flex items-start hover:scale-105 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl w-16 h-16 flex items-center justify-center mr-6 flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg">
+                      <Mail className="h-8 w-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
-                      <p className="text-gray-600">support@store.com</p>
-                      <p className="text-gray-600">info@store.com</p>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">Email Us</h3>
+                      <p className="text-gray-600 hover:text-blue-600 transition-colors cursor-pointer text-lg">support@store.com</p>
+                      <p className="text-gray-600 hover:text-blue-600 transition-colors cursor-pointer">info@store.com</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-start">
-                    <div className="bg-green-100 rounded-full w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
-                      <Phone className="h-6 w-6 text-green-600" />
+                  <div className="group flex items-start hover:scale-105 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl w-16 h-16 flex items-center justify-center mr-6 flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg">
+                      <Phone className="h-8 w-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
-                      <p className="text-gray-600">+1 (555) 123-4567</p>
-                      <p className="text-sm text-gray-500">Monday - Friday, 9AM - 6PM EST</p>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">Call Us</h3>
+                      <p className="text-gray-600 hover:text-green-600 transition-colors cursor-pointer text-lg font-medium">+1 (555) 123-4567</p>
+                      <p className="text-gray-500">Monday - Friday, 9AM - 6PM EST</p>
                     </div>
                   </div>
                   
-                  <div className="flex items-start">
-                    <div className="bg-purple-100 rounded-full w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
-                      <MapPin className="h-6 w-6 text-purple-600" />
+                  <div className="group flex items-start hover:scale-105 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl w-16 h-16 flex items-center justify-center mr-6 flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg">
+                      <MapPin className="h-8 w-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Visit Us</h3>
-                      <p className="text-gray-600">123 Store Street</p>
-                      <p className="text-gray-600">Business District</p>
-                      <p className="text-gray-600">City, State 12345</p>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">Visit Us</h3>
+                      <div className="text-gray-600 space-y-1">
+                        <p className="hover:text-purple-600 transition-colors cursor-pointer">123 Store Street</p>
+                        <p className="hover:text-purple-600 transition-colors cursor-pointer">Business District</p>
+                        <p className="hover:text-purple-600 transition-colors cursor-pointer">City, State 12345</p>
+                      </div>
                     </div>
                   </div>
                   
-                  <div className="flex items-start">
-                    <div className="bg-orange-100 rounded-full w-12 h-12 flex items-center justify-center mr-4 flex-shrink-0">
-                      <Clock className="h-6 w-6 text-orange-600" />
+                  <div className="group flex items-start hover:scale-105 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl w-16 h-16 flex items-center justify-center mr-6 flex-shrink-0 group-hover:scale-110 transition-transform shadow-lg">
+                      <Clock className="h-8 w-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Business Hours</h3>
-                      <p className="text-gray-600">Monday - Friday: 9AM - 6PM</p>
-                      <p className="text-gray-600">Saturday: 10AM - 4PM</p>
-                      <p className="text-gray-600">Sunday: Closed</p>
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">Business Hours</h3>
+                      <div className="text-gray-600 space-y-1">
+                        <p>Monday - Friday: 9AM - 6PM</p>
+                        <p>Saturday: 10AM - 4PM</p>
+                        <p>Sunday: Closed</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Quick Support */}
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg p-8 text-white">
-                <div className="flex items-center mb-4">
-                  <HeadphonesIcon className="h-8 w-8 mr-3" />
-                  <h3 className="text-xl font-semibold">Need Quick Help?</h3>
+              <div className="glass-card bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 p-8 text-white hover:shadow-2xl transition-all duration-500 hover:scale-105">
+                <div className="flex items-center mb-6">
+                  <div className="bg-white/20 rounded-full p-3 mr-4">
+                    <HeadphonesIcon className="h-8 w-8" />
+                  </div>
+                  <h3 className="text-2xl font-bold">Need Quick Help?</h3>
                 </div>
-                <p className="text-blue-100 mb-6">
+                <p className="text-blue-100 mb-8 text-lg leading-relaxed">
                   Our support team is available 24/7 to help you with any questions or issues.
                 </p>
-                <div className="space-y-3">
-                  <Button variant="outline" className="w-full bg-white text-blue-600 hover:bg-gray-100">
-                    <MessageCircle className="h-4 w-4 mr-2" />
+                <div className="grid grid-cols-1 gap-4">
+                  <Button 
+                    variant="outline" 
+                    className="w-full bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-blue-600 transition-all duration-300 hover:scale-105 py-3"
+                  >
+                    <MessageCircle className="h-5 w-5 mr-2" />
                     Start Live Chat
                   </Button>
-                  <Button variant="outline" className="w-full bg-white text-blue-600 hover:bg-gray-100">
-                    <Phone className="h-4 w-4 mr-2" />
+                  <Button 
+                    variant="outline" 
+                    className="w-full bg-white/20 backdrop-blur-sm text-white border-white/30 hover:bg-white hover:text-blue-600 transition-all duration-300 hover:scale-105 py-3"
+                  >
+                    <Phone className="h-5 w-5 mr-2" />
                     Call Support
                   </Button>
                 </div>
               </div>
 
               {/* Customer Reviews */}
-              <div className="bg-white rounded-lg shadow-lg p-8">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">What Our Customers Say</h3>
+              <div className="glass-card p-8 hover:shadow-2xl transition-all duration-500">
+                <div className="text-center mb-8">
+                  <div className="inline-block mb-4">
+                    <span className="px-4 py-2 bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-700 rounded-full text-sm font-medium">
+                      ⭐ Testimonials
+                    </span>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">What Our Customers Say</h3>
+                  <p className="text-gray-600">Real feedback from our valued customers</p>
+                </div>
                 
-                <div className="space-y-4">
-                  <div className="border-l-4 border-blue-600 pl-4">
-                    <div className="flex items-center mb-2">
-                      <div className="flex text-yellow-400 mr-2">
+                <div className="space-y-6">
+                  <div className="group glass-card p-6 border-l-4 border-blue-600 hover:scale-105 transition-all duration-300">
+                    <div className="flex items-center mb-4">
+                      <div className="flex text-yellow-400 mr-3">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-current" />
+                          <Star key={i} className="h-5 w-5 fill-current group-hover:scale-110 transition-transform" style={{animationDelay: `${i * 0.1}s`}} />
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600">5.0</span>
+                      <span className="text-lg font-bold text-gray-900">5.0</span>
                     </div>
-                    <p className="text-gray-600 text-sm mb-2">
-                      "Excellent customer service! They resolved my issue within minutes."
+                    <p className="text-gray-700 mb-4 leading-relaxed text-lg">
+                      "Excellent customer service! They resolved my issue within minutes. The support team is incredibly helpful and professional."
                     </p>
-                    <p className="text-xs text-gray-500">- Sarah M.</p>
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-pink-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        S
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">Sarah M.</p>
+                        <p className="text-sm text-gray-500">Verified Customer</p>
+                      </div>
+                    </div>
                   </div>
                   
-                  <div className="border-l-4 border-green-600 pl-4">
-                    <div className="flex items-center mb-2">
-                      <div className="flex text-yellow-400 mr-2">
+                  <div className="group glass-card p-6 border-l-4 border-green-600 hover:scale-105 transition-all duration-300">
+                    <div className="flex items-center mb-4">
+                      <div className="flex text-yellow-400 mr-3">
                         {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-current" />
+                          <Star key={i} className="h-5 w-5 fill-current group-hover:scale-110 transition-transform" style={{animationDelay: `${i * 0.1}s`}} />
                         ))}
                       </div>
-                      <span className="text-sm text-gray-600">5.0</span>
+                      <span className="text-lg font-bold text-gray-900">5.0</span>
                     </div>
-                    <p className="text-gray-600 text-sm mb-2">
-                      "Very responsive team. Got answers to all my questions quickly."
+                    <p className="text-gray-700 mb-4 leading-relaxed text-lg">
+                      "Very responsive team. Got answers to all my questions quickly and they went above and beyond to help me out."
                     </p>
-                    <p className="text-xs text-gray-500">- John D.</p>
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-gradient-to-r from-blue-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        J
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900">John D.</p>
+                        <p className="text-sm text-gray-500">Verified Customer</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
