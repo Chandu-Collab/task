@@ -12,6 +12,12 @@ export interface Product {
   subcategory?: string;
   imageUrl: string;
   images?: string[];
+  colorVariants?: { [colorId: string]: string[] }; // Maps color ID to array of images
+  sizes?: ProductSize[]; // Available sizes for this product
+  priceModifiers?: { // Price changes based on color/size combinations
+    colors?: { [colorId: string]: number }; // Price modifier per color
+    sizes?: { [sizeId: string]: number }; // Price modifier per size
+  };
   description?: string;
   brand?: string;
   inStock: boolean;
@@ -22,6 +28,12 @@ export interface Color {
   name: string;
   hex: string;
   imageUrl?: string;
+}
+
+export interface ProductSize {
+  id: string;
+  name: string;
+  label: string; // Display label like "Small", "Medium", "128GB", "256GB"
 }
 
 export interface Category {

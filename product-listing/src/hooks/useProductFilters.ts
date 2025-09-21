@@ -50,14 +50,6 @@ export function useProductFilters() {
     // Apply filters
     let filtered = filterProducts(products, filters);
     
-    // Apply color selection for visual feedback
-    if (selectedColors.length > 0) {
-      filtered = filtered.map(product => ({
-        ...product,
-        selectedColor: product.colors.find(color => selectedColors.includes(color.id))
-      }));
-    }
-    
     // Apply sorting
     const sorted = sortProducts(filtered, sortOption);
     
@@ -76,7 +68,7 @@ export function useProductFilters() {
       currentPage,
       itemsPerPage: ITEMS_PER_PAGE,
     };
-  }, [filters, sortId, currentPage, selectedColors]);
+  }, [filters, sortId, currentPage]);
 
   // Filter actions
   const updateFilters = (newFilters: Partial<FilterState>) => {

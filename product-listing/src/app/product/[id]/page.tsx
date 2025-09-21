@@ -24,7 +24,8 @@ import {
   Star,
   ThumbsUp,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  X
 } from 'lucide-react';
 
 export default function ProductDetailPage() {
@@ -37,6 +38,8 @@ export default function ProductDetailPage() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'description' | 'reviews' | 'specs'>('description');
   const [isFavorited, setIsFavorited] = useState(false);
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   const product = useMemo(() => {
     return products.find(p => p.id.toString() === params.id);
@@ -71,12 +74,17 @@ export default function ProductDetailPage() {
     );
   }
 
-  const productImages = [
-    product.imageUrl,
-    product.imageUrl, // Duplicate for demo - in real app would be different images
-    product.imageUrl,
-    product.imageUrl
-  ];
+  const productImages = useMemo(() => {
+    // If a color is selected and product has color variants, use those images
+    if (selectedColor && product.colorVariants && product.colorVariants[selectedColor]) {
+      return product.colorVariants[selectedColor];
+    }
+    
+    // For products without colorVariants, always use the base images regardless of color selection
+    // This prevents showing wrong product images when changing colors
+    const baseImages = product.images || [product.imageUrl];
+    return baseImages;
+  }, [product, selectedColor]);
 
   const handleQuantityChange = (change: number) => {
     const newQuantity = quantity + change;
@@ -85,8 +93,27 @@ export default function ProductDetailPage() {
     }
   };
 
+  // Calculate final price based on selected color and size
+  const finalPrice = useMemo(() => {
+    const basePrice = product.discountPrice || product.price;
+    let colorModifier = 0;
+    let sizeModifier = 0;
+    
+    // Add color price modifier if available
+    if (selectedColor && product.priceModifiers?.colors?.[selectedColor]) {
+      colorModifier = product.priceModifiers.colors[selectedColor];
+    }
+    
+    // Add size price modifier if available
+    if (selectedSize && product.priceModifiers?.sizes?.[selectedSize]) {
+      sizeModifier = product.priceModifiers.sizes[selectedSize];
+    }
+    
+    return basePrice + colorModifier + sizeModifier;
+  }, [product, selectedColor, selectedSize]);
+
   const handleAddToCart = () => {
-    console.log('Add to cart:', { product, quantity, selectedColor, selectedSize });
+    console.log('Add to cart:', { product, quantity, selectedColor, selectedSize, finalPrice });
     // In real app, this would add to cart context/state
   };
 
@@ -122,40 +149,63 @@ export default function ProductDetailPage() {
             {/* Product Images */}
             <div className="space-y-4">
               {/* Main Image */}
-              <div className="relative aspect-square bg-white rounded-lg overflow-hidden">
+              <div className="relative aspect-square bg-white rounded-lg overflow-hidden group cursor-zoom-in">
                 <Image
                   src={productImages[selectedImageIndex]}
                   alt={product.name}
                   fill
-                  className="object-cover"
+                  className={`object-cover transition-transform duration-300 ${
+                    isImageZoomed ? 'scale-150' : 'group-hover:scale-105'
+                  }`}
                   priority
+                  onClick={() => setShowImageModal(true)}
                 />
                 {product.isHot && (
-                  <Badge variant="hot" className="absolute top-4 left-4">
+                  <Badge variant="hot" className="absolute top-4 left-4 z-10">
                     🔥 HOT
                   </Badge>
                 )}
                 {product.discountPercent && (
-                  <Badge variant="discount" className="absolute top-4 right-4">
+                  <Badge variant="discount" className="absolute top-4 right-4 z-10">
                     -{product.discountPercent}%
                   </Badge>
                 )}
                 
                 {/* Image Navigation */}
                 <button
-                  onClick={() => setSelectedImageIndex(Math.max(0, selectedImageIndex - 1))}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex(Math.max(0, selectedImageIndex - 1));
+                  }}
+                  className={`absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all ${
+                    selectedImageIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+                  }`}
                   disabled={selectedImageIndex === 0}
                 >
-                  <ChevronLeft className="h-5 w-5" />
+                  <ChevronLeft className="h-5 w-5 text-gray-700" />
                 </button>
                 <button
-                  onClick={() => setSelectedImageIndex(Math.min(productImages.length - 1, selectedImageIndex + 1))}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 shadow-lg"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedImageIndex(Math.min(productImages.length - 1, selectedImageIndex + 1));
+                  }}
+                  className={`absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all ${
+                    selectedImageIndex === productImages.length - 1 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+                  }`}
                   disabled={selectedImageIndex === productImages.length - 1}
                 >
-                  <ChevronRight className="h-5 w-5" />
+                  <ChevronRight className="h-5 w-5 text-gray-700" />
                 </button>
+
+                {/* Zoom hint */}
+                <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                  Click to zoom
+                </div>
+
+                {/* Image counter */}
+                <div className="absolute bottom-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+                  {selectedImageIndex + 1} / {productImages.length}
+                </div>
               </div>
 
               {/* Thumbnail Images */}
@@ -203,16 +253,35 @@ export default function ProductDetailPage() {
                   <Rating rating={product.ratingValue} count={product.ratingCount} />
                 </div>
                 
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-4 mb-2">
                   {product.discountPrice ? (
                     <>
-                      <span className="text-3xl font-bold text-gray-900">${product.discountPrice}</span>
-                      <span className="text-xl text-gray-500 line-through">${product.price}</span>
+                      <span className="text-3xl font-bold text-gray-900">${finalPrice.toFixed(2)}</span>
+                      {finalPrice !== (product.discountPrice || product.price) && (
+                        <span className="text-xl text-gray-500 line-through">${(product.discountPrice || product.price).toFixed(2)}</span>
+                      )}
                     </>
                   ) : (
-                    <span className="text-3xl font-bold text-gray-900">${product.price}</span>
+                    <span className="text-3xl font-bold text-gray-900">${finalPrice.toFixed(2)}</span>
                   )}
                 </div>
+                
+                {/* Price breakdown for color/size modifiers */}
+                {(selectedColor || selectedSize) && finalPrice !== (product.discountPrice || product.price) && (
+                  <div className="text-sm text-gray-600 mb-4">
+                    <div>Base price: ${(product.discountPrice || product.price).toFixed(2)}</div>
+                    {selectedColor && product.priceModifiers?.colors?.[selectedColor] !== undefined && product.priceModifiers?.colors?.[selectedColor] !== 0 && (
+                      <div>Color ({product.colors.find(c => c.id === selectedColor)?.name}): 
+                        {(product.priceModifiers?.colors?.[selectedColor] || 0) > 0 ? '+' : ''}${(product.priceModifiers?.colors?.[selectedColor] || 0).toFixed(2)}
+                      </div>
+                    )}
+                    {selectedSize && product.priceModifiers?.sizes?.[selectedSize] !== undefined && product.priceModifiers?.sizes?.[selectedSize] !== 0 && (
+                      <div>Size ({product.sizes?.find(s => s.id === selectedSize)?.name}): 
+                        {(product.priceModifiers?.sizes?.[selectedSize] || 0) > 0 ? '+' : ''}${(product.priceModifiers?.sizes?.[selectedSize] || 0).toFixed(2)}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Color Selection */}
@@ -224,37 +293,53 @@ export default function ProductDetailPage() {
                       <ColorSwatch
                         key={color.id}
                         color={color}
-                        selected={selectedColor === color.name}
-                        onClick={() => setSelectedColor(color.name)}
+                        selected={selectedColor === color.id}
+                        onClick={() => {
+                          setSelectedColor(color.id);
+                          // Reset to first image when color changes for better UX
+                          setSelectedImageIndex(0);
+                        }}
                         size="lg"
                       />
                     ))}
                   </div>
                   {selectedColor && (
-                    <p className="text-sm text-gray-600 mt-2">Selected: {selectedColor}</p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      Selected: {product.colors.find(c => c.id === selectedColor)?.name}
+                    </p>
                   )}
                 </div>
               )}
 
               {/* Size Selection */}
-              <div>
-                <h3 className="text-sm font-semibold text-gray-900 mb-3">Size</h3>
-                <div className="grid grid-cols-4 gap-2">
-                  {['XS', 'S', 'M', 'L', 'XL'].map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`py-2 px-3 text-sm font-medium rounded-md border ${
-                        selectedSize === size
-                          ? 'border-blue-600 bg-blue-50 text-blue-600'
-                          : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300'
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
+              {product.sizes && product.sizes.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-900 mb-3">
+                    {product.category === 'Electronics' ? 'Storage' : 'Size'}
+                  </h3>
+                  <div className="grid grid-cols-4 gap-2">
+                    {product.sizes.map((size) => (
+                      <button
+                        key={size.id}
+                        onClick={() => setSelectedSize(size.id)}
+                        className={`py-2 px-3 text-sm font-medium rounded-md border ${
+                          selectedSize === size.id
+                            ? 'border-blue-600 bg-blue-50 text-blue-600'
+                            : 'border-gray-200 bg-white text-gray-900 hover:border-gray-300'
+                        }`}
+                        title={size.label}
+                      >
+                        {size.name}
+                      </button>
+                    ))}
+                  </div>
+                  {selectedSize && (
+                    <p className="text-sm text-gray-600 mt-2">
+                      Selected: {product.sizes.find(s => s.id === selectedSize)?.label}
+                    </p>
+                  )}
                 </div>
-              </div>
+              )}
 
               {/* Quantity */}
               <div>
@@ -285,10 +370,10 @@ export default function ProductDetailPage() {
               <div className="space-y-3">
                 <Button onClick={handleAddToCart} className="w-full" size="lg">
                   <ShoppingCart className="h-5 w-5 mr-2" />
-                  Add to Cart - ${((product.discountPrice || product.price) * quantity).toFixed(2)}
+                  Add to Cart - ${(finalPrice * quantity).toFixed(2)}
                 </Button>
                 <Button variant="outline" className="w-full" size="lg">
-                  Buy Now
+                  Buy Now - ${(finalPrice * quantity).toFixed(2)}
                 </Button>
               </div>
 
@@ -488,7 +573,79 @@ export default function ProductDetailPage() {
           )}
         </div>
       </main>
-      
+
+      {/* Image Modal */}
+      {showImageModal && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center p-4">
+          <div className="relative max-w-4xl max-h-full">
+            {/* Close button */}
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 p-2"
+            >
+              <X className="h-8 w-8" />
+            </button>
+
+            {/* Modal Image */}
+            <div className="relative aspect-square bg-white rounded-lg overflow-hidden">
+              <Image
+                src={productImages[selectedImageIndex]}
+                alt={product.name}
+                fill
+                className="object-cover"
+                priority
+              />
+
+              {/* Navigation in modal */}
+              <button
+                onClick={() => setSelectedImageIndex(Math.max(0, selectedImageIndex - 1))}
+                className={`absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all ${
+                  selectedImageIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+                }`}
+                disabled={selectedImageIndex === 0}
+              >
+                <ChevronLeft className="h-6 w-6 text-gray-700" />
+              </button>
+              <button
+                onClick={() => setSelectedImageIndex(Math.min(productImages.length - 1, selectedImageIndex + 1))}
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white rounded-full p-3 shadow-lg transition-all ${
+                  selectedImageIndex === productImages.length - 1 ? 'opacity-50 cursor-not-allowed' : 'opacity-100'
+                }`}
+                disabled={selectedImageIndex === productImages.length - 1}
+              >
+                <ChevronRight className="h-6 w-6 text-gray-700" />
+              </button>
+
+              {/* Image counter in modal */}
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-4 py-2 rounded-full text-sm">
+                {selectedImageIndex + 1} / {productImages.length}
+              </div>
+            </div>
+
+            {/* Thumbnail navigation in modal */}
+            <div className="flex justify-center mt-4 space-x-2 max-w-full overflow-x-auto">
+              {productImages.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setSelectedImageIndex(index)}
+                  className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 ${
+                    selectedImageIndex === index ? 'border-white' : 'border-gray-500'
+                  }`}
+                >
+                  <Image
+                    src={image}
+                    alt={`${product.name} view ${index + 1}`}
+                    width={64}
+                    height={64}
+                    className="object-cover w-full h-full"
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );
