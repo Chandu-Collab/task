@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Heart, ShoppingCart, Eye } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Product, Color } from '@/types';
 import { Badge } from '@/components/ui/Badge';
 import { Rating } from '@/components/ui/Rating';
@@ -30,14 +31,15 @@ export function ProductCard({
   const hasDiscount = product.discountPrice && product.discountPrice < product.price;
 
   return (
-    <div
-      className={cn(
-        'group relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-300',
-        className
-      )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <Link href={`/product/${product.id}`} className="block">
+      <div
+        className={cn(
+          'group relative bg-white border border-gray-200 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-gray-300 cursor-pointer',
+          className
+        )}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden bg-gray-100">
         {/* Color feedback background */}
@@ -96,6 +98,11 @@ export function ProductCard({
             variant="ghost"
             className="h-8 w-8 p-0 bg-white/90 hover:bg-white shadow-sm"
             aria-label="Add to wishlist"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              // Add to favorites logic here
+            }}
           >
             <Heart className="h-4 w-4" />
           </Button>
@@ -104,6 +111,11 @@ export function ProductCard({
             variant="ghost"
             className="h-8 w-8 p-0 bg-white/90 hover:bg-white shadow-sm"
             aria-label="Quick view"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              // Quick view logic here
+            }}
           >
             <Eye className="h-4 w-4" />
           </Button>
@@ -119,6 +131,11 @@ export function ProductCard({
           <Button 
             className="w-full bg-black/80 hover:bg-black text-white"
             size="sm"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              // Add to cart logic here
+            }}
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
             Add to Cart
@@ -137,12 +154,7 @@ export function ProductCard({
 
         {/* Title */}
         <h3 className="font-medium text-gray-900 line-clamp-2 min-h-[2.5rem]">
-          <a 
-            href={`/products/${product.id}`}
-            className="hover:text-blue-600 transition-colors"
-          >
-            {product.name}
-          </a>
+          {product.name}
         </h3>
 
         {/* Rating */}
@@ -154,7 +166,10 @@ export function ProductCard({
 
         {/* Colors */}
         {product.colors && product.colors.length > 0 && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}>
             <span className="text-sm text-gray-600">Colors:</span>
             <div className="flex gap-1">
               {product.colors.slice(0, 4).map((color) => (
@@ -206,12 +221,18 @@ export function ProductCard({
             size="sm"
             className="text-gray-400 hover:text-red-500 p-1"
             aria-label="Add to wishlist"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              // Add to favorites logic here
+            }}
           >
             <Heart className="h-4 w-4" />
           </Button>
         </div>
       </div>
-    </div>
+      </div>
+    </Link>
   );
 }
 

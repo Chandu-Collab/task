@@ -55,14 +55,14 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className="text-gray-700 hover:text-blue-600 font-medium transition-colors relative group"
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all group-hover:w-full" />
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -94,39 +94,45 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
             </Button>
 
             {/* Wishlist */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="relative"
-              aria-label="Wishlist"
-            >
-              <Heart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                2
-              </span>
-            </Button>
+            <Link href="/favorites">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="relative"
+                aria-label="Wishlist"
+              >
+                <Heart className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  2
+                </span>
+              </Button>
+            </Link>
 
             {/* Cart */}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="relative"
-              aria-label="Shopping cart"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-4 w-4 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
-                3
-              </span>
-            </Button>
+            <Link href="/cart">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="relative"
+                aria-label="Shopping cart"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-blue-600 text-white text-xs rounded-full flex items-center justify-center">
+                  3
+                </span>
+              </Button>
+            </Link>
 
             {/* User profile */}
-            <Button
-              variant="ghost"
-              size="sm"
-              aria-label="User account"
-            >
-              <User className="h-5 w-5" />
-            </Button>
+            <Link href="/account">
+              <Button
+                variant="ghost"
+                size="sm"
+                aria-label="User account"
+              >
+                <User className="h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
 
@@ -155,13 +161,13 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
 
             {/* Mobile nav items */}
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
                 href={item.href}
                 className="block text-gray-700 hover:text-blue-600 font-medium py-2 border-b border-gray-100 last:border-b-0 transition-colors"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
