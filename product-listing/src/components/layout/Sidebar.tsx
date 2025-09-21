@@ -14,6 +14,7 @@ interface SidebarProps {
   filters: FilterState;
   onFilterChange: (filters: Partial<FilterState>) => void;
   onCategoryToggle: (categoryId: string) => void;
+  onSubcategoryToggle: (subcategoryId: string) => void;
   onColorToggle: (colorId: string) => void;
   onColorSelect: (colorId: string) => void;
   onClearFilters: () => void;
@@ -31,6 +32,7 @@ export function Sidebar({
   filters,
   onFilterChange,
   onCategoryToggle,
+  onSubcategoryToggle,
   onColorToggle,
   onColorSelect,
   onClearFilters,
@@ -146,23 +148,29 @@ export function Sidebar({
                 {/* Subcategories */}
                 {isExpanded && category.subcategories && (
                   <div className="ml-6 space-y-2">
-                    {category.subcategories.slice(0, 6).map((subcategory) => (
-                      <label 
-                        key={subcategory.id}
-                        className="flex items-center space-x-3 cursor-pointer group"
-                      >
-                        <input
-                          type="checkbox"
-                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="text-sm text-gray-600 group-hover:text-gray-800">
-                          {subcategory.name}
-                        </span>
-                        <span className="text-xs text-gray-400">
-                          ({subcategory.count})
-                        </span>
-                      </label>
-                    ))}
+                    {category.subcategories.slice(0, 6).map((subcategory) => {
+                      const isSubcategorySelected = filters.subcategories.includes(subcategory.name);
+                      
+                      return (
+                        <label 
+                          key={subcategory.id}
+                          className="flex items-center space-x-3 cursor-pointer group"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isSubcategorySelected}
+                            onChange={() => onSubcategoryToggle(subcategory.name)}
+                            className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm text-gray-600 group-hover:text-gray-800">
+                            {subcategory.name}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            ({subcategory.count})
+                          </span>
+                        </label>
+                      );
+                    })}
                     {category.subcategories.length > 6 && (
                       <Button variant="link" size="sm" className="ml-6 p-0 h-auto text-blue-600">
                         View more ({category.subcategories.length - 6})

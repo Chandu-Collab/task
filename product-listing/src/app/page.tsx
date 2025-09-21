@@ -33,6 +33,7 @@ function ProductListingContent() {
     updateFilters,
     clearFilters,
     toggleCategory,
+    toggleSubcategory,
     toggleColor,
     selectColor,
     updateSort,
@@ -58,6 +59,7 @@ function ProductListingContent() {
           activeFilterCount={activeFilterCount}
           onFilterChange={updateFilters}
           onCategoryToggle={toggleCategory}
+          onSubcategoryToggle={toggleSubcategory}
           onColorToggle={toggleColor}
           onColorSelect={selectColor}
           onClearFilters={clearFilters}
@@ -73,6 +75,7 @@ function ProductListingContent() {
           activeFilterCount={activeFilterCount}
           onFilterChange={updateFilters}
           onCategoryToggle={toggleCategory}
+          onSubcategoryToggle={toggleSubcategory}
           onColorToggle={toggleColor}
           onColorSelect={selectColor}
           onClearFilters={clearFilters}
