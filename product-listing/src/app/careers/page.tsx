@@ -191,19 +191,77 @@ export default function CareersPage() {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-700 text-white">
-          <div className="container mx-auto px-4 py-20">
+        <div className="relative bg-gradient-to-br from-purple-600 via-indigo-700 to-blue-800 text-white overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-10 left-10 w-72 h-72 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+            <div className="absolute top-20 right-20 w-96 h-96 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
+            <div className="absolute -bottom-20 left-20 w-80 h-80 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-2000"></div>
+          </div>
+          
+          {/* Floating Particles */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white rounded-full opacity-40 animate-bounce delay-300"></div>
+            <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-purple-200 rounded-full opacity-60 animate-bounce delay-700"></div>
+            <div className="absolute bottom-1/4 left-1/3 w-1.5 h-1.5 bg-indigo-200 rounded-full opacity-50 animate-bounce delay-1000"></div>
+          </div>
+          
+          <div className="relative container mx-auto px-4 py-24">
             <div className="text-center">
-              <Briefcase className="h-16 w-16 mx-auto mb-4 text-purple-200" />
-              <h1 className="text-5xl font-bold mb-6">Join Our Team</h1>
-              <p className="text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
+              {/* Animated Icon */}
+              <div className="relative inline-block mb-8">
+                <div className="absolute inset-0 bg-white rounded-full opacity-20 scale-150 animate-ping"></div>
+                <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                  <Briefcase className="h-16 w-16 text-white animate-pulse" />
+                </div>
+              </div>
+              
+              {/* Main Heading with Gradient Text */}
+              <h1 className="text-6xl md:text-7xl font-bold mb-6 leading-tight">
+                <span className="bg-gradient-to-r from-white via-purple-100 to-indigo-100 bg-clip-text text-transparent">
+                  Join Our Team
+                </span>
+              </h1>
+              
+              {/* Animated Subtitle */}
+              <p className="text-xl md:text-2xl text-purple-100 max-w-4xl mx-auto leading-relaxed mb-8 animate-fade-in-up">
                 Help us build the future of e-commerce while working with talented people 
                 who are passionate about creating exceptional customer experiences.
               </p>
-              <div className="mt-8">
-                <Button size="lg" variant="outline" className="text-gray-900">
+              
+              {/* Stats */}
+              <div className="flex flex-wrap justify-center gap-8 mb-12 text-center">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/20">
+                  <div className="text-3xl font-bold text-white">50+</div>
+                  <div className="text-purple-200 text-sm">Team Members</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/20">
+                  <div className="text-3xl font-bold text-white">15+</div>
+                  <div className="text-purple-200 text-sm">Open Positions</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl px-6 py-4 border border-white/20">
+                  <div className="text-3xl font-bold text-white">6</div>
+                  <div className="text-purple-200 text-sm">Departments</div>
+                </div>
+              </div>
+              
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-purple-700 hover:bg-purple-50 hover:scale-105 transition-all duration-300 shadow-xl"
+                >
+                  <Briefcase className="h-5 w-5 mr-2" />
                   View Open Positions
                   <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm hover:scale-105 transition-all duration-300"
+                >
+                  Learn About Culture
+                  <Users className="h-4 w-4 ml-2" />
                 </Button>
               </div>
             </div>
@@ -211,57 +269,158 @@ export default function CareersPage() {
         </div>
 
         {/* Why Work Here */}
-        <div className="container mx-auto px-4 py-20">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Why Work With Us?</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                  <benefit.icon className="h-6 w-6 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
-                <p className="text-gray-600">{benefit.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Company Values */}
-        <div className="bg-gray-100">
-          <div className="container mx-auto px-4 py-20">
-            <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Our Values</h2>
+        <section className="relative bg-white py-24">
+          <div className="container mx-auto px-4">
+            {/* Section Header */}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Why Work With Us?
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Join a team that values growth, innovation, and work-life balance
+              </p>
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {companyValues.map((value, index) => (
-                <div key={index} className="bg-white rounded-lg shadow-sm p-6 text-center">
-                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <value.icon className="h-8 w-8 text-purple-600" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {benefits.map((benefit, index) => (
+                <div 
+                  key={index} 
+                  className="group relative bg-white rounded-2xl shadow-lg border border-gray-100 p-8 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+                >
+                  {/* Gradient Background on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-indigo-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Animated Icon */}
+                  <div className="relative mb-6">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-2xl opacity-0 group-hover:opacity-20 scale-150 transition-all duration-500"></div>
+                    <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <benefit.icon className="h-8 w-8 text-white" />
+                    </div>
                   </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{value.title}</h3>
-                  <p className="text-gray-600 text-sm">{value.description}</p>
+                  
+                  {/* Content */}
+                  <div className="relative">
+                    <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-purple-700 transition-colors duration-300">
+                      {benefit.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      {benefit.description}
+                    </p>
+                  </div>
+                  
+                  {/* Bottom Accent */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* Company Values */}
+        <section className="relative bg-gradient-to-br from-gray-50 via-purple-50 to-indigo-50 py-24 overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_1px_1px,_rgba(139,92,246,0.3)_1px,_transparent_0)] bg-[length:24px_24px]"></div>
+          </div>
+          
+          <div className="relative container mx-auto px-4">
+            {/* Section Header */}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Our Values
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                The principles that guide everything we do and shape our culture
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {companyValues.map((value, index) => (
+                <div 
+                  key={index} 
+                  className="group relative bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg border border-white/50 p-8 text-center hover:bg-white hover:shadow-xl hover:-translate-y-2 transition-all duration-500"
+                >
+                  {/* Animated Icon Container */}
+                  <div className="relative mb-6 mx-auto">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-400 to-indigo-600 rounded-full opacity-20 scale-100 group-hover:scale-125 group-hover:opacity-30 transition-all duration-500"></div>
+                    <div className="relative w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                      <value.icon className="h-10 w-10 text-white group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                  </div>
+                  
+                  {/* Content */}
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-purple-700 transition-colors duration-300">
+                    {value.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {value.description}
+                  </p>
+                  
+                  {/* Hover Glow Effect */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/10 to-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* Departments */}
-        <div className="container mx-auto px-4 py-20">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Our Teams</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {departments.map((dept, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold text-gray-900">{dept.name}</h3>
-                  <Badge variant="outline">{dept.count} open roles</Badge>
+        <section className="bg-white py-24">
+          <div className="container mx-auto px-4">
+            {/* Section Header */}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                Our Teams
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Diverse teams working together to create amazing experiences
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {departments.map((dept, index) => (
+                <div 
+                  key={index} 
+                  className="group relative bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-100 p-8 hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
+                >
+                  {/* Background Gradient on Hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-indigo-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Content */}
+                  <div className="relative">
+                    <div className="flex items-center justify-between mb-6">
+                      <h3 className="text-2xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors duration-300">
+                        {dept.name}
+                      </h3>
+                      <div className="relative">
+                        <Badge 
+                          variant="outline" 
+                          className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white border-0 group-hover:scale-105 transition-transform duration-300"
+                        >
+                          {dept.count} open roles
+                        </Badge>
+                      </div>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">
+                      {dept.description}
+                    </p>
+                    
+                    {/* View Roles Link */}
+                    <div className="mt-6">
+                      <button className="text-purple-600 hover:text-purple-700 font-medium text-sm flex items-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        View open roles
+                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-300" />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Bottom Accent Line */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-indigo-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
                 </div>
-                <p className="text-gray-600 text-sm">{dept.description}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
 
         {/* Open Positions */}
         <div className="bg-white">

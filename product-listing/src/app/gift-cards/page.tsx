@@ -455,14 +455,14 @@ export default function GiftCardsPage() {
               { occasion: "Holiday", description: "Spread joy during the season", popular: "$100" },
               { occasion: "Thank You", description: "Show your appreciation", popular: "$50" }
             ].map((item, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-sm border p-6 text-center">
+              <div key={index} className="bg-white rounded-lg shadow-sm border p-6 text-center hover:shadow-md transition-shadow">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   {item.occasion}
                 </h3>
                 <p className="text-gray-600 mb-4">
                   {item.description}
                 </p>
-                <Badge className="bg-purple-100 text-purple-800">
+                <Badge className="bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold px-3 py-1 shadow-sm">
                   Most popular: {item.popular}
                 </Badge>
               </div>

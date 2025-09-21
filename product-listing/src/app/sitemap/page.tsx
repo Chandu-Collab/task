@@ -126,7 +126,7 @@ export default function SitemapPage() {
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-600" />
                   <input
                     type="text"
                     placeholder="Search pages..."
@@ -220,7 +220,7 @@ export default function SitemapPage() {
 
           {filteredPages.length === 0 && (
             <div className="bg-white rounded-lg shadow-sm border p-8 text-center">
-              <Search className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <Search className="h-12 w-12 text-gray-600 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">No pages found</h3>
               <p className="text-gray-600">
                 Try adjusting your search terms or selecting a different category.
@@ -263,7 +263,7 @@ export default function SitemapPage() {
                     {link.name}
                   </span>
                   {link.popular && (
-                    <Badge className="bg-blue-100 text-blue-800 text-xs">
+                    <Badge className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-xs font-semibold px-3 py-1 shadow-sm">
                       Popular
                     </Badge>
                   )}

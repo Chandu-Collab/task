@@ -52,7 +52,7 @@ export function SortDropdown({ options, selectedId, onSelect, className }: SortD
       <Button
         variant="outline"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full sm:w-auto justify-between min-w-[200px]"
+        className="w-full sm:w-auto justify-between min-w-[200px] font-semibold text-gray-900"
         onKeyDown={handleKeyDown}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
@@ -94,8 +94,8 @@ export function SortDropdown({ options, selectedId, onSelect, className }: SortD
                   key={option.id}
                   onClick={() => handleSelect(option.id)}
                   className={cn(
-                    'flex items-center justify-between w-full px-4 py-2 text-sm text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none transition-colors',
-                    selectedId === option.id && 'bg-blue-50 text-blue-700'
+                    'flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none transition-colors',
+                    selectedId === option.id ? 'bg-blue-50 text-blue-700 font-semibold' : 'text-gray-900'
                   )}
                   role="option"
                   aria-selected={selectedId === option.id}
