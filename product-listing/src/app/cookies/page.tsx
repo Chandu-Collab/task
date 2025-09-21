@@ -103,7 +103,7 @@ export default function CookiesPage() {
     }
   ];
 
-  const handleCookieToggle = (type: string) => {
+  const handleCookieToggle = (type: keyof typeof cookieSettings) => {
     if (type === 'essential') return; // Essential cookies cannot be disabled
     
     setCookieSettings(prev => ({
