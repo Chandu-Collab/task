@@ -18,6 +18,7 @@ const initialFilters: FilterState = {
   priceRange: { min: 0, max: 10000 },
   rating: 0,
   inStock: false,
+  search: '',
 };
 
 export function useProductFilters() {

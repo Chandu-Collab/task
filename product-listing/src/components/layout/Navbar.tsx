@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Search, Menu, X, ShoppingCart, User, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/utils/cn';
@@ -11,6 +12,21 @@ interface NavbarProps {
 
 export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showMobileSearch, setShowMobileSearch] = useState(false);
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/?search=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+      setShowMobileSearch(false);
+    }
+  };
+
+  const handleMobileSearchToggle = () => {
+    setShowMobileSearch(!showMobileSearch);
+  };
 
   const navItems = [
     { label: 'Home', href: '/' },
@@ -68,17 +84,29 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
 
           {/* Search Bar - Hidden on mobile */}
           <div className="hidden lg:flex items-center flex-1 max-w-md mx-8">
-            <div className="relative w-full">
+            <form onSubmit={handleSearch} className="relative w-full">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
                 type="text"
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch(e);
+                  }
+                }}
+                className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
                 aria-label="Search products"
               />
-            </div>
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded-md"
+                aria-label="Submit search"
+              >
+                <Search className="h-4 w-4 text-gray-500" />
+              </button>
+            </form>
           </div>
 
           {/* Right side actions */}
@@ -88,6 +116,7 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
               variant="ghost"
               size="sm"
               className="lg:hidden"
+              onClick={handleMobileSearchToggle}
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -136,6 +165,36 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
           </div>
         </div>
 
+        {/* Mobile Search Overlay */}
+        {showMobileSearch && (
+          <div className="lg:hidden border-t border-gray-200 bg-white p-4">
+            <form onSubmit={handleSearch} className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch(e);
+                  }
+                }}
+                className="w-full pl-10 pr-12 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
+                aria-label="Search products"
+                autoFocus
+              />
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded-md"
+                aria-label="Submit search"
+              >
+                <Search className="h-4 w-4 text-gray-500" />
+              </button>
+            </form>
+          </div>
+        )}
+
         {/* Mobile Navigation Menu */}
         <div
           className={cn(
@@ -144,21 +203,6 @@ export function Navbar({ onMobileMenuToggle, isMobileMenuOpen }: NavbarProps) {
           )}
         >
           <nav className="px-4 py-4 space-y-4">
-            {/* Mobile search */}
-            <div className="lg:hidden">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none"
-                  aria-label="Search products"
-                />
-              </div>
-            </div>
-
             {/* Mobile nav items */}
             {navItems.map((item) => (
               <Link
