@@ -14,6 +14,7 @@ const ITEMS_PER_PAGE = 12;
 
 const initialFilters: FilterState = {
   categories: [],
+  subcategories: [],
   colors: [],
   priceRange: { min: 0, max: 10000 },
   rating: 0,
@@ -96,6 +97,16 @@ export function useProductFilters() {
       categories: prev.categories.includes(categoryId)
         ? prev.categories.filter(id => id !== categoryId)
         : [...prev.categories, categoryId]
+    }));
+    setCurrentPage(1);
+  };
+
+  const toggleSubcategory = (subcategoryId: string) => {
+    setFilters(prev => ({
+      ...prev,
+      subcategories: prev.subcategories.includes(subcategoryId)
+        ? prev.subcategories.filter(id => id !== subcategoryId)
+        : [...prev.subcategories, subcategoryId]
     }));
     setCurrentPage(1);
   };
@@ -189,6 +200,7 @@ export function useProductFilters() {
     updateFilters,
     clearFilters,
     toggleCategory,
+    toggleSubcategory,
     toggleColor,
     selectColor,
     updatePriceRange,

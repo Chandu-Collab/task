@@ -20,6 +20,11 @@ export function filterProducts(products: Product[], filters: FilterState): Produ
       return false;
     }
 
+    // Subcategory filter
+    if (filters.subcategories.length > 0 && (!product.subcategory || !filters.subcategories.includes(product.subcategory))) {
+      return false;
+    }
+
     // Color filter
     if (filters.colors.length > 0) {
       const hasMatchingColor = product.colors.some(color => 
@@ -123,6 +128,10 @@ export function filtersToQueryParams(filters: FilterState, sortId: string, page:
     params.set('categories', filters.categories.join(','));
   }
   
+  if (filters.subcategories.length > 0) {
+    params.set('subcategories', filters.subcategories.join(','));
+  }
+  
   if (filters.colors.length > 0) {
     params.set('colors', filters.colors.join(','));
   }
@@ -162,6 +171,7 @@ export function queryParamsToFilters(searchParams: URLSearchParams): {
 } {
   const search = searchParams.get('search') || '';
   const categories = searchParams.get('categories')?.split(',').filter(Boolean) || [];
+  const subcategories = searchParams.get('subcategories')?.split(',').filter(Boolean) || [];
   const colors = searchParams.get('colors')?.split(',').filter(Boolean) || [];
   const minPrice = Number(searchParams.get('minPrice')) || 0;
   const maxPrice = Number(searchParams.get('maxPrice')) || 10000;
@@ -174,6 +184,7 @@ export function queryParamsToFilters(searchParams: URLSearchParams): {
     filters: {
       search,
       categories,
+      subcategories,
       colors,
       priceRange: { min: minPrice, max: maxPrice },
       rating,

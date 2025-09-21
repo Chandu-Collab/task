@@ -39,6 +39,7 @@ export interface Subcategory {
 
 export interface FilterState {
   categories: string[];
+  subcategories: string[];
   colors: string[];
   priceRange: {
     min: number;
